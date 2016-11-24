@@ -1,4 +1,6 @@
-// Binary Search Demonstration
+//Taylor Kettle
+//CSC 1436 S04
+// Binary Search 
 
 #include <iostream>
 #include <fstream>
@@ -17,6 +19,21 @@ passed as the first parameter in ascending order.
 */
 // public int minIndex(string[] arrayofstrings, int indexToStart, int indexToEnd);
 int minIndex(string[], int, int);
+
+int minIndex(string arrayOfStrings[], int indexToStart, int indexToEnd)
+{
+	int currentIndexLowest = indexToStart;
+	for (int i = indexToStart; i < indexToEnd; i++)
+	{
+		if (arrayOfStrings[i] < arrayOfStrings[currentIndexLowest])
+		{
+			currentIndexLowest = i;
+		}
+	}
+
+	return currentIndexLowest;
+}
+
 /*
 minIndex returns the *array index* of the least element
 of the array beginning at (and including) the first integer
@@ -29,8 +46,6 @@ DETERMINE & RETURN THE *INDEX* OF THE WORD, NOT THE WORD ITSELF
 would print 17 because that's the least value in the range.
 It would *not* print "Charles Colbert"!
 */
-
-int minIndex(string)
 
 void swap(string&, string&);
 /*	The swap routine receives two strings by reference
@@ -68,7 +83,7 @@ int main()
 
 	getline(inFile, inVal);
 
-	while (top<MAX && !inFile.eof())
+	while (top < MAX && !inFile.eof())
 	{
 		nameList[top] = inVal;
 		top++;
@@ -80,7 +95,7 @@ int main()
 
 	selection_sort(nameList, top);
 
-	for (int i = 0; i<top; i++)
+	for (int i = 0; i < top; i++)
 		cout << i << '\t' << nameList[i] << '\n';
 
 	if (binarySearch("Alan Albertson", nameList, top))
@@ -108,7 +123,7 @@ int main()
 
 //***********************************************
 
-void selection_sort(string s[], int t)
+void selection_sort(string stringArrayToBeSorted[MAX], int top)
 {
 	/*
 	for i=0 to t
@@ -117,15 +132,37 @@ void selection_sort(string s[], int t)
 
 	swap s[i] with s[n]
 	*/
+	for (int i = 0; i < top; i++)
+	{
+		swap(stringArrayToBeSorted[i], stringArrayToBeSorted[minIndex(stringArrayToBeSorted, i, top)]);
+	}
 	return;
 }
 
 //*******************************************
 
-bool binarySearch(string inVal, string names[], int top)
+bool binarySearch(string inVal, string * names, int top)
 {
-	/*
-	See Word flowchart in directory.
-	*/
+	int low = 0; int high = top - 1; int mid = (low + high) / 2;
+
+	if (names[mid] == inVal)
+	{
+		return true;
+	}
+	else
+	{
+		if (names[mid] < inVal)
+		{
+			low = mid + 1;
+		}
+		else
+		{
+			top = mid - 1;
+		}
+
+		mid = (low + top) / 2;
+	}
+
 	return false;
+	minIndex(names, low, top);
 }
